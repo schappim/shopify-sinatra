@@ -1,0 +1,16 @@
+---
+# Shopify Configuration
+shopify_app_key: "abcef8332b17b63dab9ec2f80cf53111"
+shopify_app_secret: "c29c932f43374c7dcf0ecc47112b2b73"
+shopify_scope: "write_themes"
+
+# App Information
+product_name: "Holiday Snow"
+company_name: "Growth Mate"
+
+# Database Information
+server: "my-server.mongohq.com"
+port: 10064
+database: "my-app-database"
+db_username: "username"
+db_password: "password"

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= CONFIG['product_name'] %> Dashboard &dash; <%= CONFIG['company_name'] %></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Incude bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<!-- Custom icons -->
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<!-- Custom fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel='stylesheet' type='text/css'>
+		<!-- Main stylesheet -->
+		<link href="css/kato.css" rel="stylesheet">
+	</head>
+<body>
+
+	<div id="wrapper">
+	
+
+		<!-- /Sidebar -->
+		
+		<!-- Content area -->
+		<div id="content-wrapper">
+			
+			<!-- Site header -->
+			<header class="main-header">
+				
+				<!-- Page title -->
+				<h3>
+					<a id="show-menu" href="#" class="btn btn-primary"><i class="icon-reorder"></i></a>
+					<%= CONFIG['product_name'].upcase %>
+				</h3>
+				
+				<!-- Profile dropdown -->
+				<nav class="user-profile">
+					<a href="#" class="user-dropdown" data-toggle="dropdown">
+						<img src="img/avatar.png" alt="avatar" />
+						<span><%= session[:shop] %></span>
+						<i class="icon-caret-down"></i>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="http://<%= session[:shop] %>/admin">Return to Shop</a></li>
+						<li><a href="/logout">Logout</a></li>
+					</ul>
+				</nav>
+
+			</header>
+			<!-- /Site header -->
+			
+			<!-- Main Content -->
+			<section class="main-content padding">
+<div class="row">
+					
+					<!-- Activity feed -->
+					<div class="col-lg-12">
+						
+						<div class="module module-purple">
+							<div class="module-header"><h4>SEND TEXT MESSAGE TO <%= @order.name %></h4></div>
+								<div class="module-content">
+								<form action="/sms" method="post" class="form-horizontal">
+
+									<div class="form-group">
+										<label for="input3" class="col-lg-2 control-label">Text Message</label>
+										<div class="col-lg-10">
+											<textarea name="message" class="form-control" rows="3" id="input3" style="font-size:20px;" maxlength="140">Hi <%= @order.customer.default_address.first_name %>,</textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="input1" class="col-lg-2 control-label">Phone Number</label>
+										<div class="col-lg-10">
+											<input type="phone" name="phone" class="form-control" id="input1" value="<%= @phone %>" style="font-size:20px;">
+										</div>
+									</div>
+									<input type="hidden" name="order" value="<%= @order.name %>"/>
+									<input type="hidden" name="customer_name" value="<%= @order.customer.default_address.first_name %> <%= @order.customer.default_address.last_name %>"/>
+									<input type="hidden" name="country" value="<%= @order.customer.default_address.country_code %>"/>
+									<div class="form-group">
+										<div class="col-lg-offset-9 col-lg-3">
+											<button class="btn btn-primary" style="float:right; margin-left:5px;">Send Message</button>
+
+											<button class="btn btn-default" style="float:right; margin-left:5px;">Cancel</button>
+										</div>
+									</div>
+									</form>
+								</div>
+
+						</div>
+
+
+
+					</div>
+					<!-- /Activity feed -->
+
+				</div>
+
+				<% if @sent_smses %>
+				<div class="row">
+					
+					<!-- Activity feed -->
+					<div class="col-lg-12">
+						
+						<div class="module module-orange">
+							<div class="module-header"><h4>SENT MESSAGES</h4></div>
+							<div class="module-content">
+								
+								<div class="activity-feed-wrapper">
+									<div class="activity-feed-items">
+										<% @sent_smses.each do |sms| %>
+										<div class="activity-feed-item">
+											<span>.</span>
+											<h4><i class="icon-comment"></i>&nbsp;#<%= sms.order %> <%= sms.customer_name %></h4>
+											<p><%= sms.message %></p>
+											<small><a href="#"><%= sms.order %></a> &middot; <%=  Kronic.format(sms.created_at.in_time_zone('Australia/Sydney')) + " at " + sms.created_at.in_time_zone('Australia/Sydney').strftime('%I:%M %p')   %></small>
+										</div>
+										<% end %>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<!-- /Activity feed -->
+					<% end %>
+
+				</div>
+
+
+
+
+			</section>
+			<!-- /Main Content -->
+
+		</div>
+		<!-- /Content area -->
+
+	</div>
+	
+	<!-- jQuery Framework -->
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<!-- Raphael Framework -->
+	<script src="js/raphael.min.js"></script>
+	<!-- Morris.js Graphs -->
+	<script src="js/morris.min.js"></script>
+	<!-- Small Graphs -->
+	<script src="js/sparklines.min.js"></script>
+	<!-- Knobs -->
+	<script src="js/knob.js"></script>
+	<!-- Bootstrap Javascript -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Full calendar -->
+	<script src="js/fullcalendar.min.js"></script>
+	<!-- Kato Javascript -->
+	<script src="js/theme.js"></script>
+</body>
+</html>

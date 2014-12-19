@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Holiday Snow</title>
+	<link href='http://fonts.googleapis.com/css?family=Engagement' rel='stylesheet' type='text/css'>
+	<style>
+.onoffswitch {
+    position: relative; width: 125px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+
+.onoffswitch-checkbox {
+    display: none;
+}
+
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 30px;
+}
+
+.onoffswitch-inner {
+    width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+    border-radius: 30px;
+    box-shadow: 0px 15px 0px rgba(0,0,0,0.08) inset;
+}
+
+.onoffswitch-inner:before {
+    content: "SNOW ON";
+    padding-left: 10px;
+    background-color: #04C42A; color: #FFFFFF;
+    border-radius: 30px 0 0 30px;
+}
+
+.onoffswitch-inner:after {
+    content: "SNOW OFF";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+    border-radius: 0 30px 30px 0;
+}
+
+.onoffswitch-switch {
+    width: 30px; margin: 0px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 30px;
+    position: absolute; top: 0; bottom: 0; right: 91px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+    background-image: -moz-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 80%); 
+    background-image: -webkit-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 80%); 
+    background-image: -o-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 80%); 
+    background-image: linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 80%);
+    box-shadow: 0 1px 1px white inset;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+
+#content {
+  width: 400px ;
+  margin-left: auto ;
+  margin-right: auto ;
+
+}
+
+#switch {
+  width: 100px ;
+  margin-left: auto ;
+  margin-right: auto ;
+  text-align: left;
+
+}
+
+h1 {
+	font-family: 'Engagement', cursive;
+	font-size: 44pt;
+	color:#e82133;
+}
+
+.view-store{
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+	background-color: #ebeae8;
+}
+
+#updater{
+	font-family: Arial, Helvetica, sans-serif;
+	display:none;
+}
+
+
+
+	</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+var params = new Array();
+
+function handleClick(cb) {
+    updater = $('#updater');
+    updater.show();
+
+    if (cb.checked) {
+
+        var jqxhr = $.getJSON("/enable", function () {
+            console.log("first successfully enable");
+        }).done(function () {
+            console.log("second successfully enable");
+        })
+            .fail(function () {
+                console.log("error enabling");
+            })
+            .always(function () {
+                console.log("complete enable");
+            });
+
+        // Perform other work here ...
+
+        // Set another completion function for the request above
+        jqxhr.complete(function () {
+            console.log("second complete enabled");
+            updater.hide();
+
+        });
+
+
+    } else {
+
+
+        var jqxhr = $.getJSON("/disable", function () {
+            console.log("first successfully disable");
+        }).done(function () {
+            console.log("second successfully disable");
+        }).fail(function () {
+                console.log("error disabling");
+        }).always(function () {
+                console.log("complete disabling");
+        });
+
+        // Perform other work here ...
+
+        // Set another completion function for the request above
+        jqxhr.complete(function () {
+            console.log("second complete disabling");
+            updater.hide();
+
+        });
+
+    }
+
+    //if (cb.checked) {
+    //    $.getJSON("/enable", function (data) {
+    //    	console.log("The data is:");
+    //        console.log(data);
+    //	updater.hide();
+
+    //    }).done(function() {
+    //console.log( "second success" );
+    //	});
+    //    console.log("Enabling Snow")
+    //} else {
+    //    $.getJSON("/disable", function (data) {
+    //    	console.log("The data is:");
+    //        console.log(data);
+    //    });
+    //    console.log("Disabling Snow")
+    //		updater.hide();
+    //}
+} 
+</script>
+</head>
+
+<body>
+   <div style="width:800px; margin:0 auto; text-align:center;">
+      <h1>Holiday Snow Master Control</h1>
+      <div id="switch">
+         <div class="onoffswitch">
+            <input type="checkbox" onclick='handleClick(this);' name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" <% unless @status == nil or @status == "uninstalled"%>checked<%end%>>
+            <label class="onoffswitch-label" for="myonoffswitch">
+               <div class="onoffswitch-inner"></div>
+               <div class="onoffswitch-switch"></div>
+            </label>
+         </div>
+      </div>
+      <p id="updater"><img src="/img/ajax-loader.gif" /> Updating your Theme...</p>
+      <p class="view-store"><br>View <a href="http://<%= session[:shop]%>">your store</a>.</p>
+   </div>
+</body>
+
+</html>

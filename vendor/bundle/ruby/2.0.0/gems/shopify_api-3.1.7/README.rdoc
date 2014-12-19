@@ -1,0 +1,84 @@
+= Shopify API
+
+The Shopify API gem allows Ruby developers to programmatically access the admin section of Shopify stores.
+
+The API is implemented as XML over HTTP using all four verbs (GET/POST/PUT/DELETE). Each resource, like Order, Product, or Collection, has its own URL and is manipulated in isolation. In other words, we’ve tried to make the API follow the REST principles as much as possible.
+
+
+== Usage
+
+=== Requirements
+
+All API usage happens through Shopify applications, created by either shop owners for their own shops, or by Shopify Partners for use by other shop owners:
+
+* Shop owners can create applications for themselves through their own admin (under the Preferences > Applications tab).
+* Shopify Partners create applications through their admin: http://app.shopify.com/services/partners 
+
+For more information and detailed documentation about the API visit http://api.shopify.com
+
+=== Getting Started
+
+ShopifyAPI uses ActiveResource to communicate with the REST web service. ActiveResource has to be configured with a fully authorized URL of a particular store first. To obtain that URL you can follow these steps:
+
+1. First create a new application in either the partners admin or your store admin and write down your API_KEY and SHARED_SECRET.
+
+2. You will need to supply two parameters to the Session class before you instantiate it:
+
+    ShopifyAPI::Session.setup({:api_key => API_KEY, :secret => SHARED_SECRET})
+
+3. To access a shop's data apps need an access token from that specific shop. This is a two-stage process. Before interacting with a shop for the first time an app should redirect the user to the following URL:
+
+     GET https://SHOP_NAME.myshopify.com/admin/oauth/authorize
+
+   with the following parameters:
+
+   * client_id – Required – The API key for your app
+   * scope – Required – The list of required scopes (explained below)
+   * redirect_uri – Optional – The URL that the merchant will be sent to once authentication is complete. Must be the same host as the Return URL specified in the application settings
+
+4. Once authorized, the shop redirects the owner to the return URL of your application with a parameter named 'code'. This is a temporary token the the app can exchange for a permanent access token. Make the following call:
+
+    POST https://SHOP_NAME.myshopify.com/admin/oauth/access_token
+
+   with the following parameters:
+   
+   * client_id – Required – The API key for your app
+   * client_secret – Required – The shared secret for your app
+   * code – Required – The token you received in step 3
+
+   and you'll get your permanent access token back in the response.
+
+5. Use that token to instantiate a session that is ready to make calls to the given shop.
+
+    token = params[:access_token]
+    session = ShopifyAPI::Session.new("yourshopname.myshopify.com", token)
+    session.valid?  # returns true
+
+5. Now you can activate the session and you're set:
+
+     ShopifyAPI::Base.activate_session(session)
+
+6. Get data from that shop (returns ActiveResource instances):
+
+     shop = ShopifyAPI::Shop.current
+     latest_orders = ShopifyAPI::Order.find(:all)
+
+   Alternatively, you can use #temp to initialize a Session and execute a command which also handles temporarily setting ActiveResource::Base.site:
+
+    latest_orders = ShopifyAPI::Session.temp("yourshopname.myshopify.com", token) { ShopifyAPI::Order.find(:all) }
+
+7. Finally, you can also clear the session (for example if you want to work with another shop):
+
+     ShopifyAPI::Base.clear_session
+
+== Questions or Problems?
+
+http://api.shopify.com <= Read the tech docs!
+
+http://wiki.shopify.com/Developer_Home <= Read the wiki!
+
+http://ecommerce.shopify.com/c/shopify-apis-and-technology <= Ask questions on the forums!
+
+== Copyright
+
+Copyright (c) 2012 "Shopify inc.". See LICENSE for details.

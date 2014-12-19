@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= CONFIG['product_name'] %> Login &dash; <%= CONFIG['company_name'] %></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Incude bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<!-- Custom icons -->
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<!-- Custom fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel='stylesheet' type='text/css'>
+		<!-- Main stylesheet -->
+		<link href="css/kato.css" rel="stylesheet">
+	</head>
+<body class="full-page">
+	
+	<form class="login-box" action="/auth/shopify">
+		
+		<h1>Welcome to <%= CONFIG['product_name'] %></h1>
+		<div class="logo-holder"><img class="logo" src="img/logo.svg"/><br><br></div>
+		<h5 style="color:#2b3035; text-align:center;">Please enter your Shopify store URL</h5>
+
+		<input type="text" class="form-control" name="shop"placeholder="yourstore.myshopify.com" />
+
+		<button class="btn" type="submit" >Login With Shopify</button>
+
+		 <a href="#">Need help?</a> 
+
+	</form>
+	
+	<!-- jQuery Framework -->
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<!-- Raphael Framework -->
+	<script src="js/raphael.min.js"></script>
+	<!-- Morris.js Graphs -->
+	<script src="js/morris.min.js"></script>
+	<!-- Small Graphs -->
+	<script src="js/sparklines.min.js"></script>
+	<!-- Knobs -->
+	<script src="js/knob.js"></script>
+	<!-- Bootstrap Javascript -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Full calendar -->
+	<script src="js/fullcalendar.min.js"></script>
+	<!-- Kato Javascript -->
+	<script src="js/theme.js"></script>
+</body>
+</html>
